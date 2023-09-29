@@ -204,7 +204,7 @@ app.post("/cinemas", async (req, res) => {
 app.get("/users", async (req, res) => {
   try {
     const request =
-      await database`SELECT id, first_name, last_name, phone_number, email FROM users`;
+      await database`SELECT id, first_name, last_name, phone_number, email, photo_profile FROM users`;
 
     res.json({
       status: true,
@@ -239,26 +239,24 @@ app.get("/users/:id", async (req, res) => {
   }
 });
 
-app.post("/cinemas", async (req, res) => {
+app.post("/users", async (req, res) => {
   try {
     const {
-      movie_id,
-      name,
-      city,
-      adress,
-      show_times,
-      price,
-      logo,
+      first_name,
+      last_name,
+      phone_number,
+      email,
+      password,
+      photo_profile,
     } = req.body;
 
     const isInputValid =
-      movie_id &&
-      name &&
-      city &&
-      adress &&
-      show_times &&
-      price &&
-      logo;
+      first_name &&
+      last_name &&
+      phone_number &&
+      email &&
+      password &&
+      photo_profile
 
       // check if input is valid
 
@@ -269,10 +267,10 @@ app.post("/cinemas", async (req, res) => {
       });
     }
 
-    const request = await database`INSERT INTO cinemas
-    (movie_id, name, city, adress, show_times, price, logo)
+    const request = await database`INSERT INTO users
+    (first_name, last_name, phone_number, email, password, photo_profile)
   values
-    (${movie_id}, ${name}, ${city}, ${adress}, ${show_times}, ${price}, ${logo}) RETURNING id`;
+    (${first_name}, ${last_name}, ${phone_number}, ${email}, ${password}, ${photo_profile}) RETURNING id`;
 
     if (request.length > 0) {
       res.json({
