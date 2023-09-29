@@ -5,15 +5,39 @@ const database = require("./database");
 
 app.get("/movies", async (req, res) => {
   try {
-    const request = await database`SELECT * FROM movies`;
+    const request = await database`SELECT id, name, genres, poster, duration FROM movies`;
 
-    res.json(request);
-  } catch (error) {}
+    res.json({
+      status: true,
+      message: "Get Data Success",
+      data: request,
+    });
+  } catch (error) {
+    res.status(502).json({
+      status: false,
+      message: "Something weong in our server",
+      data: [],
+    })
+  }
 });
 
 app.get("/movies/:id", async (req, res) => {
-  
-  
+  try {
+    const { id } = req.params
+    const request = await database`SELECT * FROM movies WHERE id = ${id}`;
+
+    res.json({
+      status: true,
+      message: "Get Data Success",
+      data: request,
+    });
+  } catch (error) {
+    res.status(502).json({
+      status: false,
+      message: "Something weong in our server",
+      data: [],
+    })
+  }
 });
 
 
