@@ -3,12 +3,12 @@ const app = express();
 const port = 3000;
 const database = require("./database");
 
-// Gran access expres json from outside
+// Grant access expres json from outside
 app.use(express.urlencoded({ extended: false }));
 
 app.use(express.json());
 
-// START MOVIES BACKEND
+// ENDPOINT MOVIES
 
 app.get("/movies", async (req, res) => {
   try {
@@ -104,7 +104,7 @@ app.post("/movies", async (req, res) => {
   }
 });
 
-// START CINEMA BACKEND
+// ENDPOINT CINEMAS
 
 app.get("/cinemas", async (req, res) => {
   try {
@@ -199,7 +199,7 @@ app.post("/cinemas", async (req, res) => {
   }
 });
 
-// START USER BACKEND
+// ENDPOINT USER
 
 app.get("/users", async (req, res) => {
   try {
