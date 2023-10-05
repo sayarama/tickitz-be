@@ -1,17 +1,23 @@
 const express = require("express");
+require("dotenv").config();
 const app = express();
 const database = require("./database");
-require('dotenv').config()
+app.use(express.json());
+let port = process.env.PORT;
 
-const port = process.env.PORT
+app.get("/movies", async (req, res) => {
+  const request = await database`SELECT * FROM movies`;
+  res.send(request);
+});
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+app.get("/movies/:id", async (req, res) => {
+  const request = await database`SELECT * FROM movies`;
+  res.send(request);
+});
 
 app.listen(port, () => {
-  console.log(`http://localhost:${port}`)
-})
+  console.log(`http://localhost:${port}`);
+});
 
 // // Grant access expres json from outside
 // app.use(express.urlencoded({ extended: false }));
@@ -301,7 +307,6 @@ app.listen(port, () => {
 //     });
 //   }
 // });
-
 
 // app.listen(port, () => {
 //   console.log(`Example app listening on port ${port}`);
