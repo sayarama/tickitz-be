@@ -4,6 +4,7 @@ const app = express();
 const database = require("./database");
 const cors = require("cors");
 const helmet = require("helmet");
+const bcrypt = require("bcrypt");
 app.use(express.json());
 let port = process.env.PORT;
 
@@ -269,22 +270,20 @@ app.post("/users/register", async (req, res) => {
       password &&
       photo_profile;
 
-      if (!isInputValid) {
-        res.status(400).json({
-          status: false,
-          message: "Bad input, please make sure your input is completed"
-        });
-      }
-
-      
+    if (!isInputValid) {
+      res.status(400).json({
+        status: false,
+        message: "Bad input, please make sure your input is completed",
+      });
+    }
 
     const request =
-      await database`INSERT INTO users(movie_id, name, city, adress, show_times, price, logo) VALUES(${movie_id},${name},${city},${adress},${show_times},${price},${logo}) RETURNING id`; 
+      await database`INSERT INTO users(first_name, last_name, phone_number, email, password, photo_profile) VALUES(${first_name},${last_name},${phone_number},${email},${password},${photo_profile}) RETURNING id`;
     if (request.length > 0) {
-      res.status("200").json({
+      res.json({
         status: true,
         message: "Insert data success",
-      })
+      });
     }
   } catch (error) {
     res.status("502").json({
