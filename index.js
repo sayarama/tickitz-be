@@ -131,7 +131,120 @@ app.delete("/movies/:id", async (req, res) => {
   }
 });
 
-// Endpoint Users
+// Endpoint Cinemas
+// Get
+app.get("/cinemas", async (req, res) => {
+  try {
+    const request = await database`SELECT * FROM cinemas`;
+    res.status("200").json({
+      status: true,
+      message: "Get data success",
+      data: request,
+    });
+  } catch (error) {
+    res.status("502").json({
+      status: false,
+      message: "something wrong in our server",
+      data: [],
+    });
+  }
+});
+
+// Get selected id
+app.get("/cinemas/:id", async (req, res) => {
+  try {
+    const id = Number(req.params.id);
+    const request = await database`SELECT * FROM cinemas WHERE id=${id}`;
+    res.status("200").json({
+      status: true,
+      message: "Get data success",
+      data: request,
+    });
+  } catch (error) {
+    res.status("502").json({
+      status: false,
+      message: "something wrong in our server",
+      data: [],
+    });
+  }
+});
+
+// Post
+app.post("/cinemas", async (req, res) => {
+  try {
+    const {
+      movie_id,
+      name,
+      city,
+      adress,
+      show_times,
+      price,
+      logo,
+    } = req.body;
+    const request =
+      await database`INSERT INTO cinemas(movie_id, name, city, adress, show_times, price, logo) VALUES(${movie_id},${name},${city},${adress},${show_times},${price},${logo})`;
+    res.status("200").json({
+      status: true,
+      message: "Post data success",
+      data: request,
+    });
+  } catch (error) {
+    res.status("502").json({
+      status: false,
+      message: "something wrong in our server",
+      data: [],
+    });
+  }
+});
+
+// Update
+app.put("/movies/:id", async (req, res) => {
+  try {
+    const id = Number(req.params.id);
+    const {
+      name,
+      release_date,
+      duration,
+      genres,
+      directed_by,
+      casts,
+      synopsis,
+      poster,
+    } = req.body;
+    const request =
+      await database`UPDATE movies SET name=${name}, release_date=${release_date}, duration=${duration}, genres=${genres}, directed_by=${directed_by}, casts=${casts}, synopsis=${synopsis}, poster=${poster} WHERE id=${id}`;
+    res.status("200").json({
+      status: true,
+      message: "Update data success",
+      data: request,
+    });
+  } catch (error) {
+    res.status("502").json({
+      status: false,
+      message: "something wrong in our server",
+      data: [],
+    });
+  }
+});
+
+// Delete
+app.delete("/movies/:id", async (req, res) => {
+  try {
+    const id = Number(req.params.id);
+    const request = await database`DELETE FROM movies WHERE id=${id}`;
+    res.status("200").json({
+      status: true,
+      message: "Data Deleted",
+      data: request,
+    });
+  } catch (error) {
+    res.status("502").json({
+      status: false,
+      message: "something wrong in our server",
+      data: [],
+    });
+  }
+});
 
 // Get users
 
