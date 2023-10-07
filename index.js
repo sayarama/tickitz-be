@@ -20,11 +20,11 @@ app.use(helmet());
 app.get("/movies", async (req, res) => {
   try {
     const request = await database`SELECT * FROM movies`;
-    res.status('200').json({
+    res.status("200").json({
       status: true,
       message: "Get data success",
       data: request,
-    })
+    });
   } catch (error) {
     res.status("502").json({
       status: false,
@@ -39,11 +39,11 @@ app.get("/movies/:id", async (req, res) => {
   try {
     const id = Number(req.params.id);
     const request = await database`SELECT * FROM movies WHERE id=${id}`;
-    res.status('200').json({
+    res.status("200").json({
       status: true,
       message: "Get data success",
       data: request,
-    })
+    });
   } catch (error) {
     res.status("502").json({
       status: false,
@@ -68,11 +68,11 @@ app.post("/movies", async (req, res) => {
     } = req.body;
     const request =
       await database`INSERT INTO movies(name, release_date, duration, genres, directed_by, casts, synopsis, poster) VALUES(${name},${release_date},${duration},${genres},${directed_by},${casts},${synopsis},${poster})`;
-      res.status("200").json({
-        status: true,
-        message: "Get data success",
-        data: request,
-      });
+    res.status("200").json({
+      status: true,
+      message: "Get data success",
+      data: request,
+    });
   } catch (error) {
     res.status("502").json({
       status: false,
@@ -84,20 +84,32 @@ app.post("/movies", async (req, res) => {
 
 // Update
 app.put("/movies/:id", async (req, res) => {
-  const id = Number(req.params.id);
-  const {
-    name,
-    release_date,
-    duration,
-    genres,
-    directed_by,
-    casts,
-    synopsis,
-    poster,
-  } = req.body;
-  const request =
-    await database`UPDATE movies SET name=${name}, release_date=${release_date}, duration=${duration}, genres=${genres}, directed_by=${directed_by}, casts=${casts}, synopsis=${synopsis}, poster=${poster} WHERE id=${id}`;
-  res.send("data updated");
+  try {
+    const id = Number(req.params.id);
+    const {
+      name,
+      release_date,
+      duration,
+      genres,
+      directed_by,
+      casts,
+      synopsis,
+      poster,
+    } = req.body;
+    const request =
+      await database`UPDATE movies SET name=${name}, release_date=${release_date}, duration=${duration}, genres=${genres}, directed_by=${directed_by}, casts=${casts}, synopsis=${synopsis}, poster=${poster} WHERE id=${id}`;
+    res.status("200").json({
+      status: true,
+      message: "Get data success",
+      data: request,
+    });
+  } catch (error) {
+    res.status("502").json({
+      status: false,
+      message: "something wrong in our server",
+      data: [],
+    });
+  }
 });
 
 // Delete
