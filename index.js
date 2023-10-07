@@ -198,21 +198,21 @@ app.post("/cinemas", async (req, res) => {
 });
 
 // Update
-app.put("/movies/:id", async (req, res) => {
+app.put("/cinemas/:id", async (req, res) => {
   try {
     const id = Number(req.params.id);
     const {
+
+      movie_id,
       name,
-      release_date,
-      duration,
-      genres,
-      directed_by,
-      casts,
-      synopsis,
-      poster,
+      city,
+      adress,
+      show_times,
+      price,
+      logo,
     } = req.body;
     const request =
-      await database`UPDATE movies SET name=${name}, release_date=${release_date}, duration=${duration}, genres=${genres}, directed_by=${directed_by}, casts=${casts}, synopsis=${synopsis}, poster=${poster} WHERE id=${id}`;
+      await database`UPDATE cinemas SET movie_id=${movie_id}, name=${name}, city=${city}, adress=${adress}, show_times=${show_times}, price=${price}, logo=${logo} WHERE id=${id}`;
     res.status("200").json({
       status: true,
       message: "Update data success",
@@ -248,7 +248,22 @@ app.delete("/movies/:id", async (req, res) => {
 
 // Get users
 
-app.get("/users", async (req, res) => {});
+app.get("/users", async (req, res) => {
+  try {
+    const request = await database`SELECT first_name, last_name, phone_number, photo_profile FROM users`;
+    res.status("200").json({
+      status: true,
+      message: "Get data success",
+      data: request,
+    });
+  } catch (error) {
+    res.status("502").json({
+      status: false,
+      message: "something wrong in our server",
+      data: [],
+    });
+  }
+});
 
 app.listen(port, () => {
   console.log(`http://localhost:${port}`);
