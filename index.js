@@ -172,15 +172,7 @@ app.get("/cinemas/:id", async (req, res) => {
 // Post
 app.post("/cinemas", async (req, res) => {
   try {
-    const {
-      movie_id,
-      name,
-      city,
-      adress,
-      show_times,
-      price,
-      logo,
-    } = req.body;
+    const { movie_id, name, city, adress, show_times, price, logo } = req.body;
     const request =
       await database`INSERT INTO cinemas(movie_id, name, city, adress, show_times, price, logo) VALUES(${movie_id},${name},${city},${adress},${show_times},${price},${logo})`;
     res.status("200").json({
@@ -201,16 +193,7 @@ app.post("/cinemas", async (req, res) => {
 app.put("/cinemas/:id", async (req, res) => {
   try {
     const id = Number(req.params.id);
-    const {
-
-      movie_id,
-      name,
-      city,
-      adress,
-      show_times,
-      price,
-      logo,
-    } = req.body;
+    const { movie_id, name, city, adress, show_times, price, logo } = req.body;
     const request =
       await database`UPDATE cinemas SET movie_id=${movie_id}, name=${name}, city=${city}, adress=${adress}, show_times=${show_times}, price=${price}, logo=${logo} WHERE id=${id}`;
     res.status("200").json({
@@ -250,12 +233,59 @@ app.delete("/movies/:id", async (req, res) => {
 
 app.get("/users", async (req, res) => {
   try {
-    const request = await database`SELECT first_name, last_name, phone_number, photo_profile FROM users`;
+    const request =
+      await database`SELECT first_name, last_name, phone_number, photo_profile FROM users`;
     res.status("200").json({
       status: true,
       message: "Get data success",
       data: request,
     });
+  } catch (error) {
+    res.status("502").json({
+      status: false,
+      message: "something wrong in our server",
+      data: [],
+    });
+  }
+});
+
+// User register
+app.post("/users/register", async (req, res) => {
+  try {
+    const {
+      first_name,
+      last_name,
+      phone_number,
+      email,
+      password,
+      photo_profile,
+    } = req.body;
+
+    const isInputValid =
+      first_name &&
+      last_name &&
+      phone_number &&
+      email &&
+      password &&
+      photo_profile;
+
+      if (!isInputValid) {
+        res.status(400).json({
+          status: false,
+          message: "Bad input, please make sure your input is completed"
+        });
+      }
+
+      
+
+    const request =
+      await database`INSERT INTO users(movie_id, name, city, adress, show_times, price, logo) VALUES(${movie_id},${name},${city},${adress},${show_times},${price},${logo}) RETURNING id`; 
+    if (request.length > 0) {
+      res.status("200").json({
+        status: true,
+        message: "Insert data success",
+      })
+    }
   } catch (error) {
     res.status("502").json({
       status: false,
