@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const database = require("../database");
+const modelUsers = require("../models/users");
 const router = require("express").Router();
 
 // Middleware function
@@ -34,8 +35,7 @@ const checkJwt = async (req, res, next) => {
 
 router.get("/users", async (req, res) => {
     try {
-        const request =
-            await database`SELECT first_name, last_name, phone_number, photo_profile FROM users`;
+        const request = await modelUsers.getAllUsers();
         res.status("200").json({
             status: true,
             message: "Get data success",

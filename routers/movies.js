@@ -1,6 +1,6 @@
 const database = require("../database");
 const router = require("express").Router();
-const moviesModel = require("../models/movies")
+const moviesModel = require("../models/movies");
 
 // Get
 router.get("/movies", async (req, res) => {
@@ -24,7 +24,8 @@ router.get("/movies", async (req, res) => {
 router.get("/movies/:id", async (req, res) => {
     try {
         const id = Number(req.params.id);
-        const request = await database`SELECT * FROM movies WHERE id=${id}`;
+        const request = await moviesModel.getSelectedMovie(id);
+
         res.status("200").json({
             status: true,
             message: "Get data success",
@@ -41,19 +42,38 @@ router.get("/movies/:id", async (req, res) => {
 
 // Post
 router.post("/movies", async (req, res) => {
+    const {
+        name,
+        release_date,
+        duration,
+        genres,
+        directed_by,
+        casts,
+        synopsis,
+        poster,
+    } = req.body;
+
+    const isInputValid = name && release_date && duration && directed_by && genres && casts && synopsis && poster;
+
+    // check if input is valid
+    if (!isInputValid) {
+        res.status(400).json({
+            status: false,
+            message: "Bad input, please mae sure your input is completed",
+        })
+    }
+
+    const request = await moviesModel.addMovie({
+        name,
+        release_date,
+        duration,
+        directed_by,
+        genres,
+        casts,
+        synopsis,
+        poster,
+    });
     try {
-        const {
-            name,
-            release_date,
-            duration,
-            genres,
-            directed_by,
-            casts,
-            synopsis,
-            poster,
-        } = req.body;
-        const request =
-            await database`INSERT INTO movies(name, release_date, duration, genres, directed_by, casts, synopsis, poster) VALUES(${name},${release_date},${duration},${genres},${directed_by},${casts},${synopsis},${poster})`;
         res.status("200").json({
             status: true,
             message: "Post data success",
@@ -72,24 +92,26 @@ router.post("/movies", async (req, res) => {
 router.put("/movies/:id", async (req, res) => {
     try {
         const id = Number(req.params.id);
-        const {
-            name,
-            release_date,
-            duration,
-            genres,
-            directed_by,
-            casts,
-            synopsis,
-            poster,
-        } = req.body;
-        const request =
-            await database`UPDATE movies SET name=${name}, release_date=${release_date}, duration=${duration}, genres=${genres}, directed_by=${directed_by}, casts=${casts}, synopsis=${synopsis}, poster=${poster} WHERE id=${id}`;
+        const columns = [
+            "name",
+            "release_date",
+            "duration",
+            "genres",
+            "directed_by",
+            "casts",
+            "synopsis",
+            "poster",
+        ];
+
+        const request = await moviesModel.editMovie(req.body, columns, id)
+
         res.status("200").json({
             status: true,
             message: "Update data success",
             data: request,
         });
     } catch (error) {
+        console.log(error)
         res.status("502").json({
             status: false,
             message: "something wrong in our server",
@@ -102,7 +124,7 @@ router.put("/movies/:id", async (req, res) => {
 router.delete("/movies/:id", async (req, res) => {
     try {
         const id = Number(req.params.id);
-        const request = await database`DELETE FROM movies WHERE id=${id}`;
+        const request = await moviesModel.deleteMovie(id);
         res.status("200").json({
             status: true,
             message: "Data Deleted",
