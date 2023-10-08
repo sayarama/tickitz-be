@@ -275,6 +275,7 @@ app.post("/users/register", async (req, res) => {
         status: false,
         message: "Bad input, please make sure your input is completed",
       });
+      return;
     }
 
     // Check Unique Email
@@ -283,8 +284,10 @@ app.post("/users/register", async (req, res) => {
     if(checkEmail.length > 0) {
       res.status(400).json({
         status: false,
-        message: "Email already registered",
+        message: "Email is already registered",
       });
+
+      return;
     }
 
 
@@ -299,6 +302,7 @@ app.post("/users/register", async (req, res) => {
         status: true,
         message: "Insert data success",
       });
+      return;
     }
   } catch (error) {
     res.status("502").json({
@@ -324,6 +328,7 @@ app.post("/users/login", async (req,res) => {
         status: false,
         message: "Email not registered",
       });
+      return;
     }
 
     res.json({
