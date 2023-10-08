@@ -276,6 +276,18 @@ app.post("/users/register", async (req, res) => {
         message: "Bad input, please make sure your input is completed",
       });
     }
+
+    // Check Unique Email
+    const checkEmail = await database`SELECT * FROM users WHERE email = ${email}`;
+
+    if(checkEmail.length > 0) {
+      res.status(400).json({
+        status: false,
+        message: "Email already registered",
+      });
+    }
+
+
     const saltRounds = 10;
     const salt = bcrypt.genSaltSync(saltRounds);
     const hash = bcrypt.hashSync(password,salt)
@@ -301,7 +313,25 @@ app.post("/users/register", async (req, res) => {
 
 app.post("/users/login", async (req,res) => {
   try {
+    const {email, password} = req.body;
+
+
     
+    const checkEmail = await database`SELECT * FROM users WHERE email = ${email}`;
+
+    if(checkEmail.length == 0) {
+      res.status(400).json({
+        status: false,
+        message: "Email not registered",
+      });
+    }
+
+    res.json({
+      status: true,
+      message: "Insert data success",
+      data: checkEmail
+    });
+
   } catch (error) {
     res.status("502").json({
       status: false,
