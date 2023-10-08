@@ -1,5 +1,5 @@
 const database = require("../database");
-const router = require("express").Router;
+const router = require("express").Router();
 
 // Endpoint Cinemas
 // Get

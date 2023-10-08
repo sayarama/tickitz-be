@@ -1,10 +1,9 @@
 const database = require("../database");
-const router = require("express").Router;
+const router = require("express").Router();
 
 // Get
 router.get("/movies", async (req, res) => {
     try {
-        const request = await database`SELECT * FROM movies`;
         res.status("200").json({
             status: true,
             message: "Get data success",
