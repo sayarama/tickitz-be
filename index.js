@@ -276,9 +276,12 @@ app.post("/users/register", async (req, res) => {
         message: "Bad input, please make sure your input is completed",
       });
     }
+    const saltRounds = 10;
+    const salt = bcrypt.genSaltSync(saltRounds);
+    const hash = bcrypt.hashSync(password,salt)
 
     const request =
-      await database`INSERT INTO users(first_name, last_name, phone_number, email, password, photo_profile) VALUES(${first_name},${last_name},${phone_number},${email},${password},${photo_profile}) RETURNING id`;
+      await database`INSERT INTO users(first_name, last_name, phone_number, email, password, photo_profile) VALUES(${first_name},${last_name},${phone_number},${email},${hash},${photo_profile}) RETURNING id`;
     if (request.length > 0) {
       res.json({
         status: true,
@@ -293,6 +296,20 @@ app.post("/users/register", async (req, res) => {
     });
   }
 });
+
+// Users login
+
+app.post("/users/login", async (req,res) => {
+  try {
+    
+  } catch (error) {
+    res.status("502").json({
+      status: false,
+      message: "something wrong in our server",
+      data: [],
+    });
+  }
+})
 
 app.listen(port, () => {
   console.log(`http://localhost:${port}`);
