@@ -78,7 +78,7 @@ router.post("/movies", async (req, res) => {
         name: "required|minLength:1|maxLength:100",
         release_date: "required|date",
         duration: "required|maxLength:50",
-        directed_by: "require|array|arrayUnique",
+        directed_by: "required|maxLength:60",
         genres: "required|array|arrayUnique",
         synopsis: "required|maxLength:900",
         poster: "required|url"
