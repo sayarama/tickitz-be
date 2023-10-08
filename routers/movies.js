@@ -54,31 +54,31 @@ router.post("/movies", async (req, res) => {
         poster,
     } = req.body;
 
-    // const isInputValid =
-    //     name &&
-    //     release_date &&
-    //     duration &&
-    //     directed_by &&
-    //     genres &&
-    //     casts &&
-    //     synopsis &&
-    //     poster;
+    const isInputValid =
+        name &&
+        release_date &&
+        duration &&
+        directed_by &&
+        genres &&
+        casts &&
+        synopsis &&
+        poster;
 
-    // // check if input is valid
-    // if (!isInputValid) {
-    //     res.status(400).json({
-    //         status: false,
-    //         message: "Bad input, please mae sure your input is completed",
-    //     });
+    // check if input is valid
+    if (!isInputValid) {
+        res.status(400).json({
+            status: false,
+            message: "Bad input, please mae sure your input is completed",
+        });
 
-    //     return;
-    // }
+        return;
+    }
 
-    const schema = new Validator(req.body, { name: "required|minLength:1|maLength:10"})
+    const schema = new Validator(req.body, { name: "required|minLength:1|maxLength:100"})
 
     schema.check().then((matched) => {
         if (!matched) {
-            res.status(422).send(v.errors)
+            res.status(422).send(schema.errors)
             return;
         }
     })
