@@ -1,6 +1,7 @@
 const database = require("../database");
 const router = require("express").Router();
 const moviesModel = require("../models/movies");
+const { Validator } = require("node-input-validator");
 
 // Get
 router.get("/movies", async (req, res) => {
@@ -69,6 +70,8 @@ router.post("/movies", async (req, res) => {
             status: false,
             message: "Bad input, please mae sure your input is completed",
         });
+
+        return;
     }
 
     const request = await moviesModel.addMovie({
