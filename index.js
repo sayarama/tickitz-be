@@ -320,7 +320,7 @@ app.post("/users/login", async (req,res) => {
     const {email, password} = req.body;
 
 
-    
+    // Check if email registered
     const checkEmail = await database`SELECT * FROM users WHERE email = ${email}`;
 
     if(checkEmail.length == 0) {
@@ -331,11 +331,23 @@ app.post("/users/login", async (req,res) => {
       return;
     }
 
-    res.json({
-      status: true,
-      message: "Insert data success",
-      data: checkEmail
-    });
+    // Check if password correct
+    const isMatch = bcrypt.compareSync(password, checkEmail[0].password)
+
+    if(isMatch) {
+      res.json({
+        status: true,
+        message: "Login success",
+        data: checkEmail,
+      });
+    } else {
+      res.status(400).json({
+        status: false,
+        message: "Password Incorrect",
+      });
+    }
+
+    
 
   } catch (error) {
     res.status("502").json({
