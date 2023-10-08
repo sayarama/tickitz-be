@@ -1,9 +1,11 @@
 const database = require("../database");
 const router = require("express").Router();
+const moviesModel = require("../models/movies")
 
 // Get
 router.get("/movies", async (req, res) => {
     try {
+        const request = await moviesModel.getAllMovies();
         res.status("200").json({
             status: true,
             message: "Get data success",
