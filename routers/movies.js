@@ -53,14 +53,22 @@ router.post("/movies", async (req, res) => {
         poster,
     } = req.body;
 
-    const isInputValid = name && release_date && duration && directed_by && genres && casts && synopsis && poster;
+    const isInputValid =
+        name &&
+        release_date &&
+        duration &&
+        directed_by &&
+        genres &&
+        casts &&
+        synopsis &&
+        poster;
 
     // check if input is valid
     if (!isInputValid) {
         res.status(400).json({
             status: false,
             message: "Bad input, please mae sure your input is completed",
-        })
+        });
     }
 
     const request = await moviesModel.addMovie({
@@ -103,7 +111,7 @@ router.put("/movies/:id", async (req, res) => {
             "poster",
         ];
 
-        const request = await moviesModel.editMovie(req.body, columns, id)
+        const request = await moviesModel.editMovie(req.body, columns, id);
 
         res.status("200").json({
             status: true,
@@ -111,7 +119,7 @@ router.put("/movies/:id", async (req, res) => {
             data: request,
         });
     } catch (error) {
-        console.log(error)
+        console.log(error);
         res.status("502").json({
             status: false,
             message: "something wrong in our server",

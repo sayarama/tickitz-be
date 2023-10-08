@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const database = require("../database");
-const modelUsers = require("../models/users");
+const usersModel = require("../models/users");
 const router = require("express").Router();
 
 // Middleware function
@@ -35,13 +35,14 @@ const checkJwt = async (req, res, next) => {
 
 router.get("/users", async (req, res) => {
     try {
-        const request = await modelUsers.getAllUsers();
+        const request = await usersModel.getAllUsers();
         res.status("200").json({
             status: true,
             message: "Get data success",
             data: request,
         });
     } catch (error) {
+        console.log(error)
         res.status("502").json({
             status: false,
             message: "something wrong in our server",
@@ -90,13 +91,15 @@ router.post("/users/register", async (req, res) => {
 
             return;
         }
-
-        const saltRounds = 10;
-        const salt = bcrypt.genSaltSync(saltRounds);
-        const hash = bcrypt.hashSync(password, salt);
-
-        const request =
-            await database`INSERT INTO users(first_name, last_name, phone_number, email, password, photo_profile) VALUES(${first_name},${last_name},${phone_number},${email},${hash},${photo_profile}) RETURNING id`;
+        const request = await usersModel.addUsers({
+            first_name,
+            last_name,
+            phone_number,
+            email,
+            password,
+            photo_profile,
+        });
+        
         if (request.length > 0) {
             res.json({
                 status: true,
@@ -172,6 +175,7 @@ router.get("/users/me", checkJwt, async (req, res) => {
             data: request,
         });
     } catch (error) {
+        console.log(error)
         res.status("502").json({
             status: false,
             message: "something wrong in our server",
