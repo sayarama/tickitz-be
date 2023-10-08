@@ -74,7 +74,15 @@ router.post("/movies", async (req, res) => {
         return;
     }
 
-    const schema = new Validator(req.body, { name: "required|minLength:1|maxLength:100"})
+    const schema = new Validator(req.body, {
+        name: "required|minLength:1|maxLength:100",
+        release_date: "required|date",
+        duration: "required|maxLength:50",
+        directed_by: "require|array|arrayUnique",
+        genres: "required|array|arrayUnique",
+        synopsis: "required|maxLength:900",
+        poster: "required|url"
+    })
 
     schema.check().then((matched) => {
         if (!matched) {
