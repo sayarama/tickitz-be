@@ -78,7 +78,11 @@ router.post("/movies", async (req, res) => {
 
     schema.check().then((matched) => {
         if (!matched) {
-            res.status(422).send(schema.errors)
+            res.status(422).send({
+                status: false,
+                message: schema.errors,
+                data: null
+            })
             return;
         }
     })
