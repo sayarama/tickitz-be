@@ -5,6 +5,7 @@ const database = require("./database");
 const cors = require("cors");
 const helmet = require("helmet");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 app.use(express.json());
 let port = process.env.PORT;
 
@@ -16,6 +17,24 @@ let corsOptions = {
 app.use(cors(corsOptions));
 
 app.use(helmet());
+
+// Middleware function
+const checkJwt = async (req, res, next) => {
+  try {
+    const token = "";
+    // const decoded = jwt.verify(token, process.env.APP_SECRET_TOKEN);
+
+    console.log("decoded", decoded)
+
+    // next()
+  } catch (error) {
+    res.status("401").json({
+      status: false,
+      message: "Token error",
+      data: [],
+    });
+  }
+};
 
 // Get
 app.get("/movies", async (req, res) => {
@@ -279,9 +298,10 @@ app.post("/users/register", async (req, res) => {
     }
 
     // Check Unique Email
-    const checkEmail = await database`SELECT * FROM users WHERE email = ${email}`;
+    const checkEmail =
+      await database`SELECT * FROM users WHERE email = ${email}`;
 
-    if(checkEmail.length > 0) {
+    if (checkEmail.length > 0) {
       res.status(400).json({
         status: false,
         message: "Email is already registered",
@@ -290,10 +310,9 @@ app.post("/users/register", async (req, res) => {
       return;
     }
 
-
     const saltRounds = 10;
     const salt = bcrypt.genSaltSync(saltRounds);
-    const hash = bcrypt.hashSync(password,salt)
+    const hash = bcrypt.hashSync(password, salt);
 
     const request =
       await database`INSERT INTO users(first_name, last_name, phone_number, email, password, photo_profile) VALUES(${first_name},${last_name},${phone_number},${email},${hash},${photo_profile}) RETURNING id`;
@@ -315,15 +334,15 @@ app.post("/users/register", async (req, res) => {
 
 // Users login
 
-app.post("/users/login", async (req,res) => {
+app.post("/users/login", async (req, res) => {
   try {
-    const {email, password} = req.body;
-
+    const { email, password } = req.body;
 
     // Check if email registered
-    const checkEmail = await database`SELECT * FROM users WHERE email = ${email}`;
+    const checkEmail =
+      await database`SELECT * FROM users WHERE email = ${email}`;
 
-    if(checkEmail.length == 0) {
+    if (checkEmail.length == 0) {
       res.status(400).json({
         status: false,
         message: "Email not registered",
@@ -332,12 +351,15 @@ app.post("/users/login", async (req,res) => {
     }
 
     // Check if password correct
-    const isMatch = bcrypt.compareSync(password, checkEmail[0].password)
+    const isMatch = bcrypt.compareSync(password, checkEmail[0].password);
 
-    if(isMatch) {
+    if (isMatch) {
+      const token = jwt.sign(checkEmail[0], process.env.APP_SECRET_TOKEN);
+
       res.json({
         status: true,
         message: "Login success",
+        accessToken: token,
         data: checkEmail,
       });
     } else {
@@ -346,9 +368,6 @@ app.post("/users/login", async (req,res) => {
         message: "Password Incorrect",
       });
     }
-
-    
-
   } catch (error) {
     res.status("502").json({
       status: false,
@@ -356,11 +375,23 @@ app.post("/users/login", async (req,res) => {
       data: [],
     });
   }
-})
+});
 
 // Get me
-
-
+app.get("/users/me", checkJwt, async (req, res) => {
+  try {
+    res.status("200").json({
+      status: true,
+      message: "Get data success",
+    });
+  } catch (error) {
+    res.status("502").json({
+      status: false,
+      message: "something wrong in our server",
+      data: [],
+    });
+  }
+});
 
 app.listen(port, () => {
   console.log(`http://localhost:${port}`);
