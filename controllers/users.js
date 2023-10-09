@@ -107,6 +107,59 @@ const usersController = {
 
         return;
     }
+    },
+    _loginUser: async (req, res) => {
+        try {
+            const { email, password } = req.body;
+    
+            // Check if email registered
+            const checkEmail =
+                await database`SELECT * FROM users WHERE email = ${email}`;
+    
+            if (checkEmail.length == 0) {
+                const schema = new Validator(req.body, {
+                    email: "required|email",
+                    password: "required|minLength:2",
+                });
+    
+                schema.check().then((matched) => {
+                    if (!matched) {
+                        res.status(422).send({
+                            status: false,
+                            message: schema.errors,
+                            data: null,
+                        });
+                        return;
+                    }
+                });
+                return;
+            }
+    
+            // Check if password correct
+            const isMatch = bcrypt.compareSync(password, checkEmail[0].password);
+    
+            if (isMatch) {
+                const token = jwt.sign(checkEmail[0], process.env.APP_SECRET_TOKEN);
+    
+                res.json({
+                    status: true,
+                    message: "Login success",
+                    accessToken: token,
+                    data: checkEmail,
+                });
+            } else {
+                res.status(400).json({
+                    status: false,
+                    message: "Password Incorrect",
+                });
+            }
+        } catch (error) {
+            res.status("502").json({
+                status: false,
+                message: "something wrong in our server",
+                data: [],
+            });
+        }
     }
 }
 
