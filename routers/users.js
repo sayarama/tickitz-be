@@ -65,29 +65,8 @@ router.put("/users/edit", checkJwt, async (req, res) => {
             "photo_profile",
         ];
 
-        const schema = new Validator(req.body, {
-            first_name: "required|minLength:1|maxLength:100",
-            last_name: "required|minLength:1|maxLength:100",
-            phone_number: "required|phoneNumber",
-            email: "required|email",
-            photo_profile: "required|url",
-        });
+        const request = await usersModel.editProfile(req.body, columns, id)
 
-        schema.check().then((matched) => {
-            if (!matched) {
-                res.status(422).send({
-                    status: false,
-                    message: schema.errors,
-                    data: null,
-                });
-                return;
-            }
-        });
-
-        const request = await database`UPDATE users SET ${database(
-            req.body,
-            columns
-        )} WHERE id = ${id} RETURNING id`;
         res.status("200").json({
             status: true,
             message: "Edit success",

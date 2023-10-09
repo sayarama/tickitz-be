@@ -35,6 +35,14 @@ const usersModel = {
 
         return request;
     },
+    editProfile: async (reqBody, columns, id) => {
+        const request = await database`UPDATE users SET ${database(
+            reqBody,
+            columns
+        )} WHERE id = ${id} RETURNING id`;
+
+        return request;
+    }
 };
 
 module.exports = usersModel;

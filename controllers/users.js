@@ -206,6 +206,58 @@ const usersController = {
             })
         }
     },
+    _validationUsersEdit: async (req, res, next) => {
+        const schema = new Validator(req.body, {
+            first_name: "required|minLength:1|maxLength:100",
+            last_name: "required|minLength:1|maxLength:100",
+            phone_number: "required|phoneNumber",
+            email: "required|email",
+            photo_profile: "required|url",
+        });
+
+        schema.check().then((matched) => {
+            if (!matched) {
+                res.status(422).send({
+                    status: false,
+                    message: schema.errors,
+                    data: null,
+                });
+                return;
+            } else {
+                next()
+            }
+        });
+    },
+    _editProfile: async (req, res) => {
+        try {
+            const token = req.headers.authorization.slice(7);
+            const decoded = jwt.verify(token, process.env.APP_SECRET_TOKEN);
+            const { id } = decoded;
+    
+            const columns = [
+                "first_name",
+                "last_name",
+                "phone_number",
+                "email",
+                "photo_profile",
+            ];
+    
+            const request = await usersModel.editProfile(req.body, columns, id)
+    
+            res.status("200").json({
+                status: true,
+                message: "Edit success",
+                data: request,
+            });
+        } catch (error) {
+            console.log(error);
+            res.status("502").json({
+                status: false,
+                message: "something wrong in our server",
+                data: [],
+            });
+        }
+    }
 }
 
 module.exports = usersController;
