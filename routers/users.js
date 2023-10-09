@@ -82,11 +82,11 @@ router.post("/users/register", async (req, res) => {
 
         const schema = new Validator(req.body, {
             first_name: "required|minLength:1|maxLength:10",
-            last_name: "",
-            phone_number: "",
-            email: "",
-            password: "",
-            photo_profile: "",
+            last_name: "required|minLength:1|maxLength:10",
+            phone_number: "required|phoneNumber",
+            email: "required|email",
+            password: "required|minLength:2|password",
+            photo_profile: "required|url",
         })
 
         schema.check().then((matched) => {
