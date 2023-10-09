@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const database = require("../database");
 const usersModel = require("../models/users");
+const usersController = require("../controllers/users")
 const router = require("express").Router();
 const { Validator } = require("node-input-validator");
 
@@ -34,23 +35,7 @@ const checkJwt = async (req, res, next) => {
 
 // Get users
 
-router.get("/users", async (req, res) => {
-    try {
-        const request = await usersModel.getAllUsers();
-        res.status("200").json({
-            status: true,
-            message: "Get data success",
-            data: request,
-        });
-    } catch (error) {
-        console.log(error)
-        res.status("502").json({
-            status: false,
-            message: "something wrong in our server",
-            data: [],
-        });
-    }
-});
+router.get("/users", usersController._getAllUsers);
 
 // User register
 router.post("/users/register", async (req, res) => {
