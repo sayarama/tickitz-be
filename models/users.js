@@ -42,6 +42,12 @@ const usersModel = {
         )} WHERE id = ${id} RETURNING id`;
 
         return request;
+    },
+    editPass: async (pass, columns, id) => {
+        const request = await database`UPDATE users SET ${database(
+            pass,
+            columns
+        )} WHERE id = ${id} RETURNING id`;
     }
 };
 
