@@ -1,0 +1,434 @@
+{
+	"info": {
+		"_postman_id": "39ae72b6-da8a-43a7-8945-700fe19dc847",
+		"name": "Tickitz API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28768566"
+	},
+	"item": [
+		{
+			"name": "Movies",
+			"item": [
+				{
+					"name": "Get All Movies",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/movies",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"movies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Selected Movies",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/movies/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"movies",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Movies",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Kamen Rider Black Sun #9\",\r\n    \"release_date\": \"2020-05-06\",\r\n    \"duration\": \"2 Hour 15 Minutes\",\r\n    \"genres\": [\"Action\", \"Adventure\", \"Drama\"],\r\n    \"directed_by\": \"Hoshimura Katai\",\r\n    \"casts\": [\"Takeru Sato\", \"Megumi Kawahana\"],\r\n    \"synopsis\": \"Live action from anime SAMURAI X\",\r\n    \"poster\": \"https://asianwiki.com/images/1/19/Rurouni_Kenshin-p2.jpg\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/movies",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"movies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Movies",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 30,\r\n    \"name\": \"Kamen Rider Agito\",\r\n    \"release_date\": \"2017-08-24\",\r\n    \"duration\": \"1 Hour 55 Minutes\",\r\n    \"genres\": [\r\n        \"Animation\",\r\n        \"Drama\"\r\n    ],\r\n    \"directed_by\": \"Naoko Yamada\",\r\n    \"casts\": [\r\n        \"Miyu Irino\",\r\n        \"Saori Hayami\",\r\n        \"Aoi Yuki\"\r\n    ],\r\n    \"synopsis\": \"The story revolves around Shôko Nishimiya, a grade school student who has impaired hearing. She transfers into a new school, where she is bullied by her classmates, especially Shôya Ishida. It gets to the point where she transfers to another school and as a result, Shôya is ostracized and bullied himself, with no friends to speak to and no plans for the future. Years later, he epicly sets himself on a path to redemption.\",\r\n    \"poster\": \"https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2F1.bp.blogspot.com%2F-r8OCw6tUxVA%2FWRrBA4KfrgI%2FAAAAAAAA6ZU%2FpRmcIpkj1UIj8YiRX14slPyHhNgRXOZDQCLcB%2Fs1600%2FA%252BSILENT%252BVOICE%252Bposter.jpg&f=1&nofb=1&ipt=ee050209e3d4bf7d913c01c3e7c8e1dbe22220584bce87abefe01902156e4a08&ipo=images\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/movies/11",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"movies",
+								"11"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Movies",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/movies/26",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"movies",
+								"26"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Cinema",
+			"item": [
+				{
+					"name": "Get All Cinema",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/cinemas",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cinemas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Selected Cinema",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/cinemas/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cinemas",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Cinema",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"movie_id\": \"14\",\r\n    \"name\": \"CGV\",\r\n    \"city\": \"Jakarta\",\r\n    \"adress\": \"Senayan\",\r\n    \"show_times\": [\"17:00\", \"19:00\", \"21:00\"],\r\n    \"price\": \"60000\",\r\n    \"logo\": \"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/CGV_logo.svg/2560px-CGV_logo.svg.png\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/cinemas",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cinemas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Cinema",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"movie_id\": \"2\",\r\n    \"name\": \"XXI\",\r\n    \"city\": \"Tangerang\",\r\n    \"adress\": \"Ciledug\",\r\n    \"show_times\": [\"17:00\", \"19:00\", \"21:00\"],\r\n    \"price\": \"45000\",\r\n    \"logo\": \"https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fvignette.wikia.nocookie.net%2Flogopedia%2Fimages%2Ff%2Ff2%2FCinema-XXI.jpg%2Frevision%2Flatest%3Fcb%3D20180729144917&f=1&nofb=1&ipt=3bda7ff71df14d7b648832fb4b68f366548176ad8912c0f7bcdcabb61dd06bbc&ipo=images\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/cinemas/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cinemas",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Cinema",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Get All Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Insert Data",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"first_name\": \"shirakami\",\r\n    \"last_name\": \"fubuki\",\r\n    \"phone_number\": \"082214765342\",\r\n    \"email\": \"shirakami@gmail.com\",\r\n    \"password\": \"shirakamifubuki\",\r\n    \"photo_profile\": \"https://cdn-icons-png.flaticon.com/512/3135/3135715.png\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/users/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"ozora@gmail.com\",\r\n    \"password\": \"ozorasubaru\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/users/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Detail Profile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjMsImZpcnN0X25hbWUiOiJzaGlyYWthbWkiLCJsYXN0X25hbWUiOiJmdWJ1a2kiLCJwaG9uZV9udW1iZXIiOiIwODIyMTQ3NjUzNDIiLCJlbWFpbCI6InNoaXJha2FtaUBnbWFpbC5jb20iLCJwYXNzd29yZCI6IiQyYiQxMCREOC5ZbFoveWVPVXdKUlZKRUJGRi9PTXFqS3JvQzR5d2dQUDJVN0NtMkVYamFTZzgyRkFOTyIsInBob3RvX3Byb2ZpbGUiOiJodHRwczovL2Nkbi1pY29ucy1wbmcuZmxhdGljb24uY29tLzUxMi8zMTM1LzMxMzU3MTUucG5nIiwiaWF0IjoxNjk2ODQyODMwfQ.B4TwvB354hcTK6xmc52c20_eemFvlKhAkwAbpiAukN4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/users/me",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjMsImZpcnN0X25hbWUiOiJzaGlyYWthbWkiLCJsYXN0X25hbWUiOiJmdWJ1a2kiLCJwaG9uZV9udW1iZXIiOiIwODIyMTQ3NjUzNDIiLCJlbWFpbCI6InNoaXJha2FtaUBnbWFpbC5jb20iLCJwYXNzd29yZCI6IiQyYiQxMCREOC5ZbFoveWVPVXdKUlZKRUJGRi9PTXFqS3JvQzR5d2dQUDJVN0NtMkVYamFTZzgyRkFOTyIsInBob3RvX3Byb2ZpbGUiOiJodHRwczovL2Nkbi1pY29ucy1wbmcuZmxhdGljb24uY29tLzUxMi8zMTM1LzMxMzU3MTUucG5nIiwiaWF0IjoxNjk2ODQyODMwfQ.B4TwvB354hcTK6xmc52c20_eemFvlKhAkwAbpiAukN4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"first_name\": \"ozora\",\r\n    \"last_name\": \"subaru\",\r\n    \"phone_number\": \"082178691564\",\r\n    \"email\": \"ozora@gmail.com\",\r\n    \"photo_profile\": \"https://cdn-icons-png.flaticon.com/512/3135/3135715.png\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/users/edit",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"edit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Password Users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjMsImZpcnN0X25hbWUiOiJvem9yYSIsImxhc3RfbmFtZSI6InN1YmFydSIsInBob25lX251bWJlciI6IjA4MjE3ODY5MTU2NCIsImVtYWlsIjoib3pvcmFAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmIkMTAkRDguWWxaL3llT1V3SlJWSkVCRkYvT01xaktyb0M0eXdnUFAyVTdDbTJFWGphU2c4MkZBTk8iLCJwaG90b19wcm9maWxlIjoiaHR0cHM6Ly9jZG4taWNvbnMtcG5nLmZsYXRpY29uLmNvbS81MTIvMzEzNS8zMTM1NzE1LnBuZyIsImlhdCI6MTY5Njg0Mjg4MX0.zgYYyG9CXHvxV4ZVroQEKIPADZt8vhnq-UiZ9IiIvS4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"ozorasubaru\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/users/edit/password",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"edit",
+								"password"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
