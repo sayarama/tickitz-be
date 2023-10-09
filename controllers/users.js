@@ -1,4 +1,5 @@
 const usersModel = require("../models/users")
+const { Validator } = require("node-input-validator");
 
 const usersController = {
     _getAllUsers: async (req, res) => {
@@ -68,18 +69,6 @@ const usersController = {
                 return;
             }
     
-            // Check Unique Email
-            const checkEmail =
-                await usersModel.checkEmail(email);
-    
-            if (checkEmail.length > 0) {
-                res.status(400).json({
-                    status: false,
-                    message: "Email is already registered",
-                });
-    
-                return;
-            }
             const request = await usersModel.addUsers({
                 first_name,
                 last_name,
@@ -97,13 +86,28 @@ const usersController = {
                 return;
             }
         } catch (error) {
+            console.log(error)
             res.status("502").json({
                 status: false,
                 message: "something wrong in our server",
                 data: [],
             });
         }
-    } 
+    },
+    _checkEmail: async (req, res) => {
+        // Check Unique Email
+        const checkEmail =
+        await usersModel.checkEmail(email);
+
+    if (checkEmail.length > 0) {
+        res.status(400).json({
+            status: false,
+            message: "Email is already registered",
+        });
+
+        return;
+    }
+    }
 }
 
 module.exports = usersController;

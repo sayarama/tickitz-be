@@ -41,7 +41,7 @@ router.get("/users", usersController._getAllUsers);
 router.post(
     "/users/register",
     usersController._validationAddUsers,
-    usersController._addUsers
+    usersController._addUsers, usersController._checkEmail
 );
 
 // Users login
