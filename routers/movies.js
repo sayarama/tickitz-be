@@ -4,7 +4,23 @@ const moviesModel = require("../models/movies");
 const { Validator } = require("node-input-validator");
 
 // Get
-router.get("/movies", moviesController._getAllMovies)
+router.get("/movies", async (req, res) => {
+    try {
+        const request = await moviesModel.getAllMovies();
+
+        res.status("200").json({
+            status: true,
+            message: "Get data success",
+            data: request,
+        });
+    } catch (error) {
+        res.status("502").json({
+            status: false,
+            message: "something wrong in our server",
+            data: [],
+        });
+    }
+})
 
 // Get selected id
 router.get("/movies/:id", async (req, res) => {
