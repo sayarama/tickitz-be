@@ -49,7 +49,7 @@ router.post(
 router.post("/users/login", usersController._loginUser);
 
 // Get me
-// router.get('/users/me', checkJwt, usersController._profileUser)
+router.get('/users/me', checkJwt, usersController._profileUser)
 
 router.put("/users/edit", checkJwt, usersController._validationUsersEdit, usersController._editProfile);
 
