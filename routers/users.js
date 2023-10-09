@@ -49,27 +49,7 @@ router.post(
 router.post("/users/login", usersController._loginUser);
 
 // Get me
-router.get("/users/me", checkJwt, async (req, res) => {
-    try {
-        const token = req.headers.authorization.slice(7);
-        const decoded = jwt.verify(token, process.env.APP_SECRET_TOKEN);
-        const request =
-            await database`SELECT * FROM users WHERE id = ${decoded.id}`;
-
-        res.status("200").json({
-            status: true,
-            message: "Get data success",
-            data: request,
-        });
-    } catch (error) {
-        console.log(error);
-        res.status("502").json({
-            status: false,
-            message: "something wrong in our server",
-            data: [],
-        });
-    }
-});
+router.get("/users/me", checkJwt, usersController._profileUser);
 
 router.put("/users/edit", checkJwt, async (req, res) => {
     try {

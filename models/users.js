@@ -17,22 +17,24 @@ const usersModel = {
             email,
             password,
             photo_profile,
-
-        } = payload
+        } = payload;
         const salt = bcrypt.genSaltSync(saltRounds);
         const hash = bcrypt.hashSync(password, salt);
         const request =
             await database`INSERT INTO users(first_name, last_name, phone_number, email, password, photo_profile) VALUES(${first_name},${last_name},${phone_number},${email},${hash},${photo_profile}) RETURNING id`;
 
-            return request;
+        return request;
     },
     checkEmail: async (email) => {
         const request = await database`SELECT * FROM users WHERE email = ${email}`;
 
         return request;
     },
-
+    profileUser: async (id) => {
+        const request = await database`SELECT * FROM users WHERE id = ${id}`
     
-}
+        return request
+      },
+};
 
-module.exports = usersModel
+module.exports = usersModel;

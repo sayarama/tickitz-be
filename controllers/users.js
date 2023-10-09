@@ -186,6 +186,26 @@ const usersController = {
             })
         }
     },
+    _profileUser: async (req, res) => {
+        try {
+            const token = req.headers.authorization.slice(7);
+            const decoded = jwt.verify(token, process.env.SECRET_TOKEN);
+
+            const request = await usersModel.profileUser(decoded.id)
+
+            res.json({
+                status: true,
+                message: "Get data Success",
+                data: request,
+            })
+        } catch (error) {
+            res.status(502).json({
+                status: false,
+                message: "Something wrong in our server",
+                data: []
+            })
+        }
+    },
 }
 
 module.exports = usersController;
