@@ -43,4 +43,4 @@ const modelMovies = {
 
 };
 
-module.exports = modelMovies
+module.exports = modelMovies;

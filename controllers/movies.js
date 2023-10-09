@@ -1,9 +1,10 @@
-const moviesModel = require("../models/movies") 
+const moviesModel = require("../models/movies");
 
 const moviesController = {
     _getAllMovies: async (req, res) => {
         try {
             const request = await moviesModel.getAllMovies();
+
             res.status("200").json({
                 status: true,
                 message: "Get data success",
@@ -16,7 +17,7 @@ const moviesController = {
                 data: [],
             });
         }
-    }
-}
+    },
+};
 
 module.export = moviesController;

@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const database = require("../database");
 const usersModel = require("../models/users");
 const router = require("express").Router();
+const { Validator } = require("node-input-validator");
 
 // Middleware function
 const checkJwt = async (req, res, next) => {
@@ -78,6 +79,26 @@ router.post("/users/register", async (req, res) => {
             });
             return;
         }
+
+        const schema = new Validator(req.body, {
+            first_name: "required|minLength:1|maxLength:10",
+            last_name: "",
+            phone_number: "",
+            email: "",
+            password: "",
+            photo_profile: "",
+        })
+
+        schema.check().then((matched) => {
+            if (!matched) {
+                res.status(422).send({
+                    status: false,
+                    message: schema.errors,
+                    data: null
+                })
+                return;
+            }
+        })
 
         // Check Unique Email
         const checkEmail =
