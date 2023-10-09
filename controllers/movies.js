@@ -142,7 +142,7 @@ const moviesController = {
             }
         });
     },
-    _UpdateMovie: async (req, res) => {
+    _updateMovie: async (req, res) => {
         try {
             const id = Number(req.params.id);
             const columns = [
@@ -165,6 +165,23 @@ const moviesController = {
             });
         } catch (error) {
             console.log(error);
+            res.status("502").json({
+                status: false,
+                message: "something wrong in our server",
+                data: [],
+            });
+        }
+    },
+    _deleteMovie: async (req, res) => {
+        try {
+            const id = Number(req.params.id);
+            const request = await moviesModel.deleteMovie(id);
+            res.status("200").json({
+                status: true,
+                message: "Data Deleted",
+                data: request,
+            });
+        } catch (error) {
             res.status("502").json({
                 status: false,
                 message: "something wrong in our server",

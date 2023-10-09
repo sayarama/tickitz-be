@@ -19,26 +19,10 @@ router.post(
 router.put(
     "/movies/:id",
     moviesController._validationUpdateMovie,
-    moviesController._addMovie
+    moviesController._updateMovie
 );
 
 // Delete
-router.delete("/movies/:id", async (req, res) => {
-    try {
-        const id = Number(req.params.id);
-        const request = await moviesModel.deleteMovie(id);
-        res.status("200").json({
-            status: true,
-            message: "Data Deleted",
-            data: request,
-        });
-    } catch (error) {
-        res.status("502").json({
-            status: false,
-            message: "something wrong in our server",
-            data: [],
-        });
-    }
-});
+router.delete("/movies/:id", );
 
 module.exports = router;
