@@ -2,7 +2,6 @@ const moviesController = require("../controllers/movies");
 const router = require("express").Router();
 const moviesModel = require("../models/movies");
 
-
 // Get
 router.get("/movies", moviesController._getAllMovie);
 
@@ -17,36 +16,11 @@ router.post(
 );
 
 // Update
-router.put("/movies/:id", async (req, res) => {
-    try {
-        const id = Number(req.params.id);
-        const columns = [
-            "name",
-            "release_date",
-            "duration",
-            "genres",
-            "directed_by",
-            "casts",
-            "synopsis",
-            "poster",
-        ];
-
-        const request = await moviesModel.editMovie(req.body, columns, id);
-
-        res.status("200").json({
-            status: true,
-            message: "Update data success",
-            data: request,
-        });
-    } catch (error) {
-        console.log(error);
-        res.status("502").json({
-            status: false,
-            message: "something wrong in our server",
-            data: [],
-        });
-    }
-});
+router.put(
+    "/movies/:id",
+    moviesController._validationUpdateMovie,
+    moviesController._addMovie
+);
 
 // Delete
 router.delete("/movies/:id", async (req, res) => {
