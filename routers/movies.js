@@ -1,25 +1,10 @@
-const database = require("../database");
+const moviesController = require("../controllers/movies")
 const router = require("express").Router();
 const moviesModel = require("../models/movies");
 const { Validator } = require("node-input-validator");
 
 // Get
-router.get("/movies", async (req, res) => {
-    try {
-        const request = await moviesModel.getAllMovies();
-        res.status("200").json({
-            status: true,
-            message: "Get data success",
-            data: request,
-        });
-    } catch (error) {
-        res.status("502").json({
-            status: false,
-            message: "something wrong in our server",
-            data: [],
-        });
-    }
-});
+router.get("/movies", moviesController._getAllMovies)
 
 // Get selected id
 router.get("/movies/:id", async (req, res) => {
