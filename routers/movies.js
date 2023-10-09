@@ -23,6 +23,6 @@ router.put(
 );
 
 // Delete
-router.delete("/movies/:id", );
+router.delete("/movies/:id", moviesController._deleteMovie);
 
 module.exports = router;
