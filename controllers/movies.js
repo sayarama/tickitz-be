@@ -1,4 +1,5 @@
 const moviesModel = require("../models/movies");
+const { Validator } = require("node-input-validator");
 
 const moviesController = {
     _getAllMovie: async (req, res) => {
