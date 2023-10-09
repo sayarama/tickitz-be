@@ -102,7 +102,7 @@ router.post("/users/register", async (req, res) => {
 
         // Check Unique Email
         const checkEmail =
-            await database`SELECT * FROM users WHERE email = ${email}`;
+            await usersModel.checkEmail(email);
 
         if (checkEmail.length > 0) {
             res.status(400).json({
