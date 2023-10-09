@@ -53,51 +53,6 @@ router.get('/users/me', checkJwt, usersController._profileUser)
 
 router.put("/users/edit", checkJwt, usersController._validationUsersEdit, usersController._editProfile);
 
-router.put("/users/edit/password", checkJwt, async (req, res) => {
-    try {
-        const token = req.headers.authorization.slice(7);
-        const decoded = jwt.verify(token, process.env.APP_SECRET_TOKEN);
-        const { id } = decoded;
-
-        const columns = ["password"];
-
-        const saltRounds = 10;
-        const salt = bcrypt.genSaltSync(saltRounds);
-        const hash = bcrypt.hashSync(req.body.password, salt);
-
-        const request = await database`UPDATE users SET ${database(
-            { password: hash },
-            columns
-        )} WHERE id = ${id} RETURNING id`;
-
-        const schema = new Validator(req.body, {
-            password: "required|minLength:2",
-        });
-
-        schema.check().then((matched) => {
-            if (!matched) {
-                res.status(422).send({
-                    status: false,
-                    message: schema.errors,
-                    data: null,
-                });
-                return;
-            }
-        });
-
-        res.status("200").json({
-            status: true,
-            message: "Edit success",
-            data: request,
-        });
-    } catch (error) {
-        console.log(error);
-        res.status("502").json({
-            status: false,
-            message: "something wrong in our server",
-            data: [],
-        });
-    }
-});
+router.put("/users/edit/password", checkJwt, usersController._validationPass, usersController._editPass);
 
 module.exports = router;
