@@ -41,7 +41,7 @@ const moviesController = {
     _validationAddMovie: async (req, res, next) => {
         
     const schema = new Validator(req.body, {
-        name: "required|minLength:1|maxLength:10",
+        name: "required|minLength:1|maxLength:100",
         release_date: "required|date",
         duration: "required|maxLength:50",
         directed_by: "required|maxLength:60",

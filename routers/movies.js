@@ -1,7 +1,7 @@
 const moviesController = require("../controllers/movies");
 const router = require("express").Router();
 const moviesModel = require("../models/movies");
-const { Validator } = require("node-input-validator");
+
 
 // Get
 router.get("/movies", moviesController._getAllMovie);
