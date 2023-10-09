@@ -81,11 +81,11 @@ router.post("/users/register", async (req, res) => {
         }
 
         const schema = new Validator(req.body, {
-            first_name: "required|minLength:1|maxLength:10",
-            last_name: "required|minLength:1|maxLength:10",
+            first_name: "required|minLength:1|maxLength:100",
+            last_name: "required|minLength:1|maxLength:100",
             phone_number: "required|phoneNumber",
             email: "required|email",
-            password: "required|minLength:2|password",
+            password: "required|minLength:2",
             photo_profile: "required|url",
         })
 
@@ -148,12 +148,25 @@ router.post("/users/login", async (req, res) => {
             await database`SELECT * FROM users WHERE email = ${email}`;
 
         if (checkEmail.length == 0) {
-            res.status(400).json({
-                status: false,
-                message: "Email not registered",
-            });
+            const schema = new Validator (req.body, {
+                email: "required|email",
+                password: "required|minLength:2"
+            })
+    
+            schema.check().then((matched) => {
+                if (!matched) {
+                    res.status(422).send({
+                        status: false,
+                        message: schema.errors,
+                        data: null
+                    })
+                    return;
+                }
+            })
             return;
         }
+
+        
 
         // Check if password correct
         const isMatch = bcrypt.compareSync(password, checkEmail[0].password);
@@ -219,6 +232,25 @@ router.put("/users/edit", checkJwt, async (req, res) => {
             "photo_profile",
         ];
 
+        const schema = new Validator(req.body, {
+            first_name: "required|minLength:1|maxLength:100",
+            last_name: "required|minLength:1|maxLength:100",
+            phone_number: "required|phoneNumber",
+            email: "required|email",
+            photo_profile: "required|url",
+        })
+
+        schema.check().then((matched) => {
+            if (!matched) {
+                res.status(422).send({
+                    status: false,
+                    message: schema.errors,
+                    data: null
+                })
+                return;
+            }
+        })
+
         const request = await database`UPDATE users SET ${database(
             req.body,
             columns
@@ -254,6 +286,22 @@ router.put("/users/edit/password", checkJwt, async (req, res) => {
             { password: hash },
             columns
         )} WHERE id = ${id} RETURNING id`;
+
+        const schema = new Validator(req.body, {
+            password: "required|minLength:2",
+        })
+
+        schema.check().then((matched) => {
+            if (!matched) {
+                res.status(422).send({
+                    status: false,
+                    message: schema.errors,
+                    data: null
+                })
+                return;
+            }
+        })
+
         res.status("200").json({
             status: true,
             message: "Edit success",
