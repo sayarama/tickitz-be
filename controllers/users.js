@@ -4,6 +4,29 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const usersController = {
+    _checkJwt: async (req, res, next) => {
+        try {
+            const token = req.headers.authorization.slice(7);
+            const decoded = jwt.verify(token, process.env.SECRET_TOKEN);
+
+            if (decoded) {
+                next();
+            } else {
+                res.status(401).json({
+                    status: false,
+                    message: "Token error",
+                    data: [],
+                })
+            }
+
+        } catch (error) {
+            res.status(401).json({
+                status: false,
+                message: "Token error",
+                data: [],
+            })
+        }
+    },
     _getAllUsers: async (req, res) => {
         try {
             const request = await usersModel.getAllUsers();
@@ -161,29 +184,6 @@ const usersController = {
                 message: "something wrong in our server",
                 data: [],
             });
-        }
-    },
-    _checkJwt: async (req, res, next) => {
-        try {
-            const token = req.headers.authorization.slice(7);
-            const decoded = jwt.verify(token, process.env.SECRET_TOKEN);
-
-            if (decoded) {
-                next();
-            } else {
-                res.status(401).json({
-                    status: false,
-                    message: "Token error",
-                    data: [],
-                })
-            }
-
-        } catch (error) {
-            res.status(401).json({
-                status: false,
-                message: "Token error",
-                data: [],
-            })
         }
     },
     _profileUser: async (req, res) => {

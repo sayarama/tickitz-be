@@ -49,38 +49,9 @@ router.post(
 router.post("/users/login", usersController._loginUser);
 
 // Get me
-router.get('/users/me', checkJwt, usersController._profileUser)
+// router.get('/users/me', checkJwt, usersController._profileUser)
 
-router.put("/users/edit", checkJwt, async (req, res) => {
-    try {
-        const token = req.headers.authorization.slice(7);
-        const decoded = jwt.verify(token, process.env.APP_SECRET_TOKEN);
-        const { id } = decoded;
-
-        const columns = [
-            "first_name",
-            "last_name",
-            "phone_number",
-            "email",
-            "photo_profile",
-        ];
-
-        const request = await usersModel.editProfile(req.body, columns, id)
-
-        res.status("200").json({
-            status: true,
-            message: "Edit success",
-            data: request,
-        });
-    } catch (error) {
-        console.log(error);
-        res.status("502").json({
-            status: false,
-            message: "something wrong in our server",
-            data: [],
-        });
-    }
-});
+router.put("/users/edit", checkJwt, usersController._validationUsersEdit, usersController._editProfile);
 
 router.put("/users/edit/password", checkJwt, async (req, res) => {
     try {
