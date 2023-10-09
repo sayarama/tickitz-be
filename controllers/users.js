@@ -199,6 +199,7 @@ const usersController = {
                 data: request,
             })
         } catch (error) {
+            console.log(error)
             res.status(502).json({
                 status: false,
                 message: "Something wrong in our server",

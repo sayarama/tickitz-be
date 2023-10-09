@@ -41,7 +41,8 @@ router.get("/users", usersController._getAllUsers);
 router.post(
     "/users/register",
     usersController._validationAddUsers,
-    usersController._addUsers, usersController._checkEmail
+    usersController._addUsers,
+    usersController._checkEmail
 );
 
 // Users login
@@ -49,10 +50,20 @@ router.post(
 router.post("/users/login", usersController._loginUser);
 
 // Get me
-router.get('/users/me', checkJwt, usersController._profileUser)
+router.get("/users/me", checkJwt, usersController._profileUser);
 
-router.put("/users/edit", checkJwt, usersController._validationUsersEdit, usersController._editProfile);
+router.put(
+    "/users/edit",
+    checkJwt,
+    usersController._validationUsersEdit,
+    usersController._editProfile
+);
 
-router.put("/users/edit/password", checkJwt, usersController._validationPass, usersController._editPass);
+router.put(
+    "/users/edit/password",
+    checkJwt,
+    usersController._validationPass,
+    usersController._editPass
+);
 
 module.exports = router;
