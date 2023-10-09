@@ -31,10 +31,10 @@ const usersModel = {
         return request;
     },
     profileUser: async (id) => {
-        const request = await database`SELECT * FROM users WHERE id = ${id}`
-    
-        return request
-      },
+        const request = await database`SELECT * FROM users WHERE id = ${id}`;
+
+        return request;
+    },
 };
 
 module.exports = usersModel;
