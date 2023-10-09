@@ -26,12 +26,12 @@ const usersModel = {
 
             return request;
     },
-    checkEmail: async () => {
+    checkEmail: async (email) => {
         const request = await database`SELECT * FROM users WHERE email = ${email}`;
 
         return request;
     },
-    
+
     
 }
 

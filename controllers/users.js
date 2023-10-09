@@ -1,5 +1,7 @@
 const usersModel = require("../models/users")
 const { Validator } = require("node-input-validator");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const usersController = {
     _getAllUsers: async (req, res) => {
@@ -113,8 +115,7 @@ const usersController = {
             const { email, password } = req.body;
     
             // Check if email registered
-            const checkEmail =
-                await database`SELECT * FROM users WHERE email = ${email}`;
+            const checkEmail = await usersModel.checkEmail(email);
     
             if (checkEmail.length == 0) {
                 const schema = new Validator(req.body, {
@@ -154,6 +155,7 @@ const usersController = {
                 });
             }
         } catch (error) {
+            console.log(error)
             res.status("502").json({
                 status: false,
                 message: "something wrong in our server",
